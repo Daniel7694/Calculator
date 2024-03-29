@@ -1,6 +1,6 @@
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
 
-enum Operator{
+enum Operator {
     add,
     subtract,
     multiply,
@@ -8,108 +8,99 @@ enum Operator{
 }
 
 export const useCalculator = () => {
-
-
-    //hooks
     const [number, setNumber] = useState('0');
     const [prevNumber, setPrevNumber] = useState('0');
-    const lastOperation = useRef<Operator>()
+    const lastOperation = useRef<Operator>();
+
     const clean = () => {
         setNumber('0');
         setPrevNumber('0');
     };
 
     const deleteOperation = () => {
-        let currentSing = '';
+        let currentSign = ' ';
         let temporalNumber = number;
         if (number.includes('-')) {
-            currentSing = '-';
+            currentSign = '-';
             temporalNumber = number.substring(1);
         }
         if (temporalNumber.length > 1) {
-            return setNumber(currentSing + temporalNumber.slice(0, -1));
+            setNumber(currentSign + temporalNumber.slice(0, -1));
+        } else {
+            setNumber('0');
         }
-        setNumber('0');
-    }
+    };
 
     const toggleSign = () => {
         if (number.includes('-')) {
-            return setNumber(number.replace('-', ''));
-
+            setNumber(number.replace('-', ''));
+        } else {
+            setNumber('-' + number);
         }
-        setNumber('-' + number);
-    }
+    };
+
     const buildNumber = (numberString: string) => {
         if (number.includes('.') && numberString === '.') {
             return;
         }
         if (number.startsWith('0') || number.startsWith('-0')) {
-
-            //Punto decimal
+            // Punto decimal
             if (numberString === '.') {
-                return setNumber(number + numberString)
+                setNumber(number + numberString);
+                return;
             }
-
-
-            //Evaluar si es otro cero y no hay punto.
-            if (numberString === '0' && number.includes('.')) {
-                return setNumber(number + numberString)
-            }
-
-            //Evaluar si es diferente de cero, no hay punto, y si es el primer número.
-            if (numberString !== '0' && !number.includes('.')) {
-                return setNumber(numberString);
-            }
-
-            //Evitar 000000
+            // Evitar 000000
             if (numberString === '0' && !number.includes('.')) {
                 return;
             }
-            return setNumber(number + numberString)
+            // Evaluar si es diferente de cero, no hay punto, y si es el primer número.
+            if (numberString !== '0' && !number.includes('.')) {
+                setNumber(numberString);
+                return;
+            }
+            // Evaluar si es otro cero y no hay punto.
+            if (numberString === '0' && number.includes('.')) {
+                setNumber(number + numberString);
+                return;
+            }
+            setNumber(number + numberString);
+        } else {
+            setNumber(number + numberString);
         }
-        setNumber(number + numberString);
     };
 
     const setLastNumber = () => {
         if (number.endsWith('.')) {
             setPrevNumber(number.slice(0, -1));
-
-        } else
+        } else {
             setPrevNumber(number);
-    }
-    setNumber('0');
-
-    //Operaciones Aritmeticas
+        }
+    };
 
     const divideOperation = () => {
-        setLastNumber()
+        setLastNumber();
         lastOperation.current = Operator.divide;
     };
 
     const multiplyOperation = () => {
-        setLastNumber()
+        setLastNumber();
         lastOperation.current = Operator.multiply;
     };
 
     const subtractOperation = () => {
-        setLastNumber()
+        setLastNumber();
         lastOperation.current = Operator.subtract;
     };
 
     const addOperation = () => {
-        setLastNumber()
+        setLastNumber();
         lastOperation.current = Operator.add;
     };
 
-
-    //Retorno
-
-    return{
+    return {
         number,
         prevNumber,
         setLastNumber,
-
-
         buildNumber,
         toggleSign,
         clean,
@@ -118,6 +109,5 @@ export const useCalculator = () => {
         multiplyOperation,
         subtractOperation,
         addOperation,
-
     };
 };
