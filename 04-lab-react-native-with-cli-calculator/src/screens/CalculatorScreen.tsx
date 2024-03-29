@@ -7,6 +7,9 @@ export const CalculatorScreen = () =>{
     const {
         number,
         buildNumber,
+        toggleSign,
+        clean,
+        deleteOperation,
     } = useCalculator();
     return(
         <View style={styles.calculatorContainer}>
@@ -16,9 +19,9 @@ export const CalculatorScreen = () =>{
             </View>
 
             <View style={styles.row}>
-           <CalculatorButton onPress={()=>console.log('AC')} blackText label="AC" color={colors.lightGray}/>
-           <CalculatorButton onPress={()=>console.log('+/-')} blackText label="+/-" color={colors.lightGray}/>
-           <CalculatorButton onPress={()=>console.log('DEL')} blackText label="DEL" color={colors.lightGray}/>
+           <CalculatorButton onPress={clean} blackText label="AC" color={colors.lightGray}/>
+           <CalculatorButton onPress={toggleSign} blackText label="+/-" color={colors.lightGray}/>
+           <CalculatorButton onPress={deleteOperation} blackText label="DEL" color={colors.lightGray}/>
            <CalculatorButton onPress={()=>console.log('÷')} label="÷" color={colors.orange}/>
             </View> 
 

@@ -1,12 +1,35 @@
 import {useState} from "react";
 
 export const useCalculator = () => {
-    //
 
 
     //hooks
     const [number, setNumber] = useState('0');
 
+    const clean = () => {
+      setNumber('0');
+    };
+
+    const deleteOperation = () =>{
+    let currentSing = '';
+    let temporalNumber = number;
+        if (number.includes('-')){
+            currentSing = '-';
+            temporalNumber = number.substring(1);
+        }
+        if(temporalNumber.length> 1){
+            return setNumber(currentSing + temporalNumber.slice(0, -1));
+        }
+        setNumber('0');
+    }
+
+    const toggleSign = () =>{
+        if (number.includes('-')){
+            return setNumber(number.replace('-', ''));
+
+        }
+        setNumber('-' + number);
+    }
     const buildNumber = (numberString : string) => {
         if (number.includes('.') && numberString === '.'){
             return;
@@ -45,5 +68,8 @@ export const useCalculator = () => {
 
 
         buildNumber,
+        toggleSign,
+        clean,
+        deleteOperation,
     };
 };
