@@ -16,6 +16,8 @@ export const CalculatorScreen = () =>{
         subtractOperation,
         addOperation,
     } = useCalculator();
+
+    
     
     return(
         <View style={styles.calculatorContainer}>
@@ -60,7 +62,7 @@ export const CalculatorScreen = () =>{
                 <CalculatorButton onPress={()=>buildNumber('0')} label="0" color={colors.lightGray} doubleSize/>
                 <CalculatorButton onPress={()=>buildNumber('.')} label="." color={colors.lightGray}/>
 
-            <CalculatorButton onPress={()=>console.log('=')} label="=" color={colors.orange}/>
+                <CalculatorButton onPress={()=>console.log('=')} label="=" color={colors.orange}/>
             </View> 
         </View>
 
